@@ -27,18 +27,6 @@ def courses_factory():
     return factory
 
 
-# @pytest.mark.django_db
-# def test_get_students(client, students_factory):
-#     # Arrange
-#     students = students_factory(_quantity=20)
-#     url = reverse('courses-list')
-#
-#     # Act
-#     response = client.get(url)
-#
-#     # Assert
-#     assert response.status_code == 200
-
 # тестирование получения всех курсов
 @pytest.mark.django_db
 def test_get_courses_list(client, courses_factory):
