@@ -1,9 +1,11 @@
+#encoding=utf-8
 import pytest
 from django.urls import reverse
 from model_bakery import baker
 from rest_framework.test import APIClient
 
 from students.models import Student, Course
+import random
 
 
 @pytest.fixture
@@ -62,7 +64,7 @@ def test_get_first_course(client, courses_factory):
 def test_get_courses_filter_id(client, courses_factory):
     # Arrange
     courses = courses_factory(_quantity=20)
-    filter_course = courses[0].id
+    filter_course = random.randint(int(courses[0].id), int(courses[-1].id))
     filter_courses = []
     for course in courses:
         if int(course.id) == filter_course:
@@ -81,7 +83,8 @@ def test_get_courses_filter_id(client, courses_factory):
 def test_get_courses_filter_name(client, courses_factory):
     # Arrange
     courses = courses_factory(_quantity=20)
-    filter_course = courses[0].name
+    elem = random.randint(0, len(courses)-1)
+    filter_course = courses[elem].name
     filter_courses = []
     for course in courses:
         if course.name == filter_course:
@@ -132,7 +135,8 @@ def test_get_courses_patch(client, courses_factory):
 def test_get_courses_delete(client, courses_factory):
     # Arrange
     courses = courses_factory(_quantity=20)
-    url = f'/api/v1/courses/{courses[0].id}/'
+    elem = random.randint(0, len(courses)-1)
+    url = f'/api/v1/courses/{courses[elem].id}/'
     get_url = reverse('courses-list')
     # Act
     response = client.delete(url)
